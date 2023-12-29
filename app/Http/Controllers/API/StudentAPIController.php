@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Models\Student;
 use Illuminate\Http\Request;
+
+
 
 class StudentAPIController extends Controller
 {
@@ -12,6 +15,7 @@ class StudentAPIController extends Controller
      */
     public function index()
     {
+        dd(123);
         $students = Student::all();
         return view('students.index', compact('students'));
     }
