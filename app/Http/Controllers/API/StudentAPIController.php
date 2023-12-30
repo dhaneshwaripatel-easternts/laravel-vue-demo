@@ -4,7 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
+use App\Http\Resources\StudentResource;
+
 use Illuminate\Http\Request;
+use App\Http\Requests\StudentRequest;
 
 
 
@@ -15,31 +18,28 @@ class StudentAPIController extends Controller
      */
     public function index()
     {
-        dd(123);
         $students = Student::all();
-        return view('students.index', compact('students'));
+        return StudentResource::collection($students);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('students.create');
-    }
+    
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        dd(123);
         $student = new Student;
         $student->name = $request->input('name');
         $student->email = $request->input('email');
         $student->password = bcrypt($request->input('password'));
-        $student->save();
 
-        return redirect()->route('students.index');
+        $student = Student::create($request);
+        //$student->save();
+
+        return \App\Models\Student::GetMessage(new StudentResource($student), config('constants.messages.create_success'));
+        //return redirect()->route('students.index');
     }
 
     /**
@@ -47,7 +47,11 @@ class StudentAPIController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        return new StudentResource($student);
+
+        // eager loading 
+        //return new StudentResource($student-> load([]));
     }
 
     /**
@@ -55,12 +59,10 @@ class StudentAPIController extends Controller
      */
     public function edit(string $id)
     {
-        // Assuming you have a Student model
         $student = Student::find($id);
 
-        // Check if the student was not found
         if (!$student) {
-            abort(404); // or handle it in your own way, e.g., redirect
+            abort(404); 
         }
 
         return view('students.edit', compact('student'));
@@ -72,12 +74,10 @@ class StudentAPIController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Assuming you have a Student model
         $student = Student::find($id);
 
-        // Check if the student was not found
         if (!$student) {
-            abort(404); // or handle it in your own way, e.g., redirect
+            abort(404); 
         }
 
         $student->name = $request->input('name');
@@ -92,12 +92,10 @@ class StudentAPIController extends Controller
      */
     public function destroy(string $id)
     {
-        // Assuming you have a Student model
         $student = Student::find($id);
 
-        // Check if the student was not found
         if (!$student) {
-            abort(404); // or handle it in your own way, e.g., redirect
+            abort(404); 
         }
         
         $student->delete();

@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StudentAPIController;
+//use App\Http\Controllers\StudentAPIController;
+use App\Http\Controllers\API\StudentAPIController;
 
 
 /*
@@ -22,5 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Route::apiResource('students', StudentAPIController::class);
 
-Route::post('students/{student}', '\App\Http\Controllers\API\StudentAPIController@update');
+//Route::post('students/{student}', '\App\Http\Controllers\API\StudentAPIController@update');
+
 Route::resource('students', '\App\Http\Controllers\API\StudentAPIController', ['except' => ['update']]);
+//Route::get('studentssss', '\App\Http\Controllers\API\StudentAPIController@index');
