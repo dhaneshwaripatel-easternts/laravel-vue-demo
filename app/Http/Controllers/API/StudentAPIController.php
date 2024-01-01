@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Http\Resources\StudentResource;
+use App\Http\Resources\DataTrueResource;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StudentRequest;
@@ -22,7 +23,7 @@ class StudentAPIController extends Controller
         return StudentResource::collection($students);
     }
 
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -50,7 +51,7 @@ class StudentAPIController extends Controller
         $student = Student::findOrFail($id);
         return new StudentResource($student);
 
-        // eager loading 
+        // eager loading
         //return new StudentResource($student-> load([]));
     }
 
@@ -62,11 +63,10 @@ class StudentAPIController extends Controller
         $student = Student::find($id);
 
         if (!$student) {
-            abort(404); 
+            abort(404);
         }
 
         return view('students.edit', compact('student'));
-
     }
 
     /**
@@ -77,7 +77,7 @@ class StudentAPIController extends Controller
         $student = Student::find($id);
 
         if (!$student) {
-            abort(404); 
+            abort(404);
         }
 
         $student->name = $request->input('name');
@@ -92,14 +92,19 @@ class StudentAPIController extends Controller
      */
     public function destroy(string $id)
     {
+
+
         $student = Student::find($id);
 
-        if (!$student) {
-            abort(404); 
-        }
-        
-        $student->delete();
 
-        return redirect()->route('students.index');
+        //dd($id);
+        if (!$student) {
+            abort(404);
+        }
+
+        $student->delete();
+        return new DataTrueResource($student, config('constants.messages.delete_success'));
+
+        //return redirect()->route('students.index');
     }
 }
