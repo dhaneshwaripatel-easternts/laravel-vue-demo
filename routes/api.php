@@ -21,7 +21,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Route::apiResource('students', StudentAPIController::class);
 
 Route::resource('students', '\App\Http\Controllers\API\StudentAPIController', ['except' => ['update']]);
 Route::post('students/{student}', '\App\Http\Controllers\API\StudentAPIController@update');
+
+
+// TODO: Implement changes for middleware concept later on
+
+// Route::group([
+//     'middleware' => ['auth:api'],
+// ], function () {
+
+//     Route::resource('students', '\App\Http\Controllers\API\StudentAPIController', ['except' => ['update']]);
+//     Route::post('students/{student}', '\App\Http\Controllers\API\StudentAPIController@update');
+
+// });
