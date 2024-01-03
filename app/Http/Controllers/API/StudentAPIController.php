@@ -30,13 +30,12 @@ class StudentAPIController extends Controller
      */
     public function store(Request $request)
     {
-        dd(123);
         $student = new Student;
         $student->name = $request->input('name');
         $student->email = $request->input('email');
         $student->password = bcrypt($request->input('password'));
 
-        $student = Student::create($request);
+        $student = Student::create($request->all());
         //$student->save();
 
         return \App\Models\Student::GetMessage(new StudentResource($student), config('constants.messages.create_success'));
@@ -48,8 +47,13 @@ class StudentAPIController extends Controller
      */
     public function show(string $id)
     {
-        $student = Student::findOrFail($id);
-        return new StudentResource($student);
+        try {
+            $student = Student::findOrFail($id);
+            return new StudentResource($student);
+        } catch (\Exception $e) {
+            // Log or handle the database error
+            return response()->json(['error' => 'Database error'], 500);
+        }
 
         // eager loading
         //return new StudentResource($student-> load([]));
@@ -93,18 +97,15 @@ class StudentAPIController extends Controller
     public function destroy(string $id)
     {
 
+        $student = Student::findOrFail($id);
 
-        $student = Student::find($id);
-
-
-        //dd($id);
-        if (!$student) {
-            abort(404);
+        try {
+            $student->delete();
+            return new DataTrueResource($student, config('constants.messages.delete_success'));
+        } catch (\Exception $e) {
+            // Log or handle the database error
+            return response()->json(['error' => 'Database error'], 500);
         }
 
-        $student->delete();
-        return new DataTrueResource($student, config('constants.messages.delete_success'));
-
-        //return redirect()->route('students.index');
     }
 }
