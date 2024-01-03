@@ -88,7 +88,7 @@ class StudentAPIController extends Controller
         $student->email = $request->input('email');
         $student->save();
 
-        return redirect()->route('students.index');
+        return \App\Models\Student::GetMessage(new StudentResource($student), config('constants.messages.update_success'));
     }
 
     /**
@@ -106,6 +106,5 @@ class StudentAPIController extends Controller
             // Log or handle the database error
             return response()->json(['error' => 'Database error'], 500);
         }
-
     }
 }

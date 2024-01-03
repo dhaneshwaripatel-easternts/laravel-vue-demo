@@ -23,7 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Route::apiResource('students', StudentAPIController::class);
 
-//Route::post('students/{student}', '\App\Http\Controllers\API\StudentAPIController@update');
-
 Route::resource('students', '\App\Http\Controllers\API\StudentAPIController', ['except' => ['update']]);
-//Route::get('studentssss', '\App\Http\Controllers\API\StudentAPIController@index');
+Route::post('students/{student}', '\App\Http\Controllers\API\StudentAPIController@update');
