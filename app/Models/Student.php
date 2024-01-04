@@ -15,6 +15,13 @@ class Student extends Model
         'password',
     ];
 
+
+    // Define the relationship with the marks table
+    public function mark()
+    {
+        return $this->hasMany(Mark::class);
+    }
+
     /**
      *  Common Display Messsage Response.
      *
