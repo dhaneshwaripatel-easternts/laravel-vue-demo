@@ -7,6 +7,8 @@ use Illuminate\Database\Seeder;
 
 use App\Models\Student;
 use App\Models\Mark;
+use Database\Factories\MarkFactory; // Make sure to import MarkFactory
+
 
 
 
@@ -19,12 +21,6 @@ class MarkTableSeeder extends Seeder
     {
         // Seed the marks table with foreign key relationships
         $students = Student::all();
-
-        // foreach ($students as $student) {
-        //     Mark::factory()->create([
-        //         'student_id' => $student->id,
-        //     ]);
-        // }
 
         foreach ($students as $student) {
             Mark::factory(MarkFactory::class)->create([

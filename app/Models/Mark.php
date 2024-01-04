@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mark extends Model
 {
-    //use HasFactory;
+    use HasFactory;
+    
     protected $fillable = ['student_id', 'english', 'computer', 'physics', 'chemistry', 'maths'];
 
     // Define the relationship with the Student model
