@@ -28,7 +28,7 @@ class StudentAPIController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StudentRequest $request)
     {
         $student = new Student;
         $student->name = $request->input('name');
