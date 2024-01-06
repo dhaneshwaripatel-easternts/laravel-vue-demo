@@ -12,8 +12,18 @@ class MarkResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    public function toArray(Request $request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'student_id' => $this->student_id,
+            'english' => $this->english,
+            'computer' => $this->computer,
+            'physics' => $this->physics,
+            'chemistry' => $this->chemistry,
+            'maths' => $this->maths,
+            //'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            //'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
+        ];
     }
 }

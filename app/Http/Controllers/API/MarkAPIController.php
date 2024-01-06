@@ -7,34 +7,54 @@ use Illuminate\Http\Request;
 
 use App\Models\Mark;
 use App\Models\Student;
+use App\Http\Resources\MarkResource;
+use App\Http\Resources\DataTrueResource;
+use App\Http\Requests\MarkRequest;
 
 
 class MarkAPIController extends Controller
 {
     public function index()
     {
-        // Fetch all marks with associated students
-        $marks = Mark::with('student')->get();
+        $marks = Mark::all();
+        return MarkResource::collection($marks);
 
-        return view('marks.index', compact('marks'));
     }
 
-    public function create()
+
+    public function store(MarkRequest $request)
     {
-        $students = Student::all();
-        return view('marks.create', compact('students'));
+
+        $marks = Mark::create($request->all());
+        return \App\Models\Mark::GetMessage(new MarkResource($marks), config('constants.messages.create_success'));
     }
 
-    public function store(Request $request)
+    /**
+     * Display the specified resource.
+     */
+    public function show(Mark $marks)
     {
-        $request->validate([
-            'student_id' => 'required',
-            'subject_id' => 'required',
-            'marks_obtained' => 'required|numeric',
-        ]);
-
-        Mark::create($request->all());
-
-        return redirect()->route('marks.index')->with('success', 'Mark added successfully');
+        return new MarkResource($marks->load([]));
     }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(MarkRequest $request, Mark $marks)
+    {
+        $data = $request->all();
+        $marks->update($data);
+
+        return \App\Models\Mark::GetMessage(new MarkResource($marks), config('constants.messages.update_success'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Mark $marks)
+    {
+            $marks->delete();
+            return new DataTrueResource($marks, config('constants.messages.delete_success'));
+    }
+
 }

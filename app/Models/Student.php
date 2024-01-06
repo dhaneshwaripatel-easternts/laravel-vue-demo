@@ -31,7 +31,6 @@ class Student extends Model
      */
     public static function GetMessage($resource, $message)
     {
-
         return response()->json([
             'message' => $message,
             'data' => $resource,

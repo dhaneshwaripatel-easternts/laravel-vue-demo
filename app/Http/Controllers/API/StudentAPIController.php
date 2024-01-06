@@ -30,10 +30,10 @@ class StudentAPIController extends Controller
      */
     public function store(StudentRequest $request)
     {
-        $student = new Student;
-        $student->name = $request->input('name');
-        $student->email = $request->input('email');
-        $student->password = bcrypt($request->input('password'));
+        // $student = new Student;
+        // $student->name = $request->input('name');
+        // $student->email = $request->input('email');
+        // $student->password = bcrypt($request->input('password'));
 
         $student = Student::create($request->all());
         //$student->save();
