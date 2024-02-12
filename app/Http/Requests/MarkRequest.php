@@ -22,7 +22,7 @@ class MarkRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'student_id' => 'required|exists:students,id',
+            'student_id' => 'required|exists:students,id|unique:students,id',
             'english' => 'required|numeric|between:0,100',
             'computer' => 'required|numeric|between:0,100',
             'physics' => 'required|numeric|between:0,100',
