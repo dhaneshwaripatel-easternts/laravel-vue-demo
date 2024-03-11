@@ -16,7 +16,9 @@ use App\Http\Controllers\StudentAPIController;
 
 // routes/web.php
 
-
+Route::get('/', function () {
+    return view('welcome');
+});
 
 // Route::get('/students', [StudentAPIController::class, 'index'])->name('students.index');
 // Route::get('/students/create', [StudentAPIController::class, 'create'])->name('students.create');

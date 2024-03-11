@@ -34,6 +34,17 @@ class MarkAPIController extends Controller
      */
     public function show(Mark $marks)
     {
+
+        //dd($marks->student_id); 
+        // try {
+        //     $marks = Mark::findOrFail($id);
+        //     return new MarkResource($marks);
+        // } catch (\Exception $e) {
+        //     // Log or handle the database error
+        //     return response()->json(['error' => 'Database error'], 500);
+        // }
+
+
         return new MarkResource($marks->load([]));
     }
 
